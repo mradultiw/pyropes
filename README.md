@@ -1,15 +1,24 @@
+
 # Ropes
 ```bash
 pip install pyropes
 ```
 ```bash
 Author: Mradul Tiwari
-Code Tester: Self
+Tester: Self
+Documentation: Self
 language: Python 3.7.4
 Date created: 27 June, 2020
 OS used: Windows 10 Home
 Hardware used: Asus ROG Strix Laptop
 ```
+## Credits
+Following Sources are used, with slight modifications, for making this project successful. I acknowledge and am grateful to these developers.
+- Test Suite: The test suite used for final testing belongs to ***Marshall Ward*** ([https://github.com/marshallward](https://github.com/marshallward))
+- Display API: As answered by ***J. V.*** on stack overflow (https://stackoverflow.com/a/54074933)
+
+## About
+
 This Documentation shows use cases of "**Height Balanced Rope Data Structure**".
 Ropes are mutable data structures for string processing. Operations like split, insert, delete, are performed in time O(logn) in Ropes, unlike conventional strings which have O(n) time complexity. Concatenation is done in O(1) in Ropes(without balancing). However accessing value at an index is O(logn) in ropes while O(1) in conventional strings.
 
@@ -141,10 +150,10 @@ Rope('Ti_sats_tigfrRp_aatutr')
 ##### > Now let's see some more operations but on some smaller strings which can fit easily on screen
 ```python
 >>> rope1 = Rope('abcde', leafsize = 3)
->>> rope1
+>>> rope1, print(rope1)
 ```
 ```
-Rope('abcde')
+(Rope('abcde'), abcde)
 ```
 ```python
 >>> rope2 = rope1 + Rope("_I'm a ROPE")
@@ -412,5 +421,5 @@ Rope('Added_IN_FRONT_added_to'), Rope('I_m_empty_rope'))
 
 ---
 ##### Final Words: 	Although I've taken every care while creating Ropes and writing this doucmentation. Despite of this, if you find any bug or descripency in any of the above, then report me. You can also provide a solution as well  :)
-##### Any suggestions regarding improvement of code/documentation are heartily welcomed and, if found vital, than will be rolled out in future updates.
+##### Any suggestions regarding improvement of code/documentation are heartily welcomed and, if found vital than, will be rolled out in future updates.
 ---
