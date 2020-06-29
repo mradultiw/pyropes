@@ -5,10 +5,10 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pyropes",
-    version="1.0",
+    version="1.1",
     author="Mradul Tiwari",
     author_email="complex.m15@gmail.com",
-    description="An implementation of Rope Data Structure",
+    description="An implementation of Rope Data Structure in Python3",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/mradultiw/pyropes",
@@ -24,7 +24,8 @@ setuptools.setup(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
-        'Topic :: Education'
+        'Topic :: Utilities'
+        
     ],
     python_requires='>=3.6',
 )
