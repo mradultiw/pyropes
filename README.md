@@ -11,7 +11,7 @@ OS used: Windows 10 Home
 Hardware used: Asus ROG Strix Laptop
 ```
 This Documentation shows use cases of "**Height Balanced Rope Data Structure**".
-Ropes are mutable data structures for string processing. Operations like split, insert, delete, slicing are performed in time O(logn) in Ropes, unlike conventional strings which have O(n) time complexity. Concatenation is done in O(1) in Ropes(without balancing). However accessing value at an index is O(logn) in ropes while O(1) in conventional strings.
+Ropes are mutable data structures for string processing. Operations like split, insert, delete, are performed in time O(logn) in Ropes, unlike conventional strings which have O(n) time complexity. Concatenation is done in O(1) in Ropes(without balancing). However accessing value at an index is O(logn) in ropes while O(1) in conventional strings.
 
 ## Functionalities and Usage
 

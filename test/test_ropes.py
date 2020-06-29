@@ -1,6 +1,6 @@
 import unittest
 
-from pyropes.Ropes import Rope
+from pyropes import Rope
 
 class Test(unittest.TestCase):
 
@@ -60,7 +60,11 @@ class Test(unittest.TestCase):
         # Explicit slices
         for i in range(-3 * len(s), 3 * len(s)):
             for j in range(-3 * len(s), 3 * len(s)):
-                for k in range(1, len(s)):
+                for k in range(-len(s),len(s)):
+                    if not k:
+                        self.assertRaises(ValueError,r.__getitem__,
+                                                  slice(i,j,k))
+                        continue
                     self.assertEqual(s[i:j:k], str(r[i:j:k]))
                     self.assertEqual(len(s[i:j:k]), len(r[i:j:k]))
                     self.assertEqual(len(s[i:j:k]), (r[i:j:k]).size)
@@ -79,7 +83,6 @@ class Test(unittest.TestCase):
             self.assertRaises(IndexError, r.__getitem__, -(i + 1))
 
     def test_slice_threenode(self):
-        # Isn't this included in the other test now?
         s = 'abc' + 'de'
         r = Rope('abc') + Rope('de')
 
@@ -99,10 +102,10 @@ class Test(unittest.TestCase):
     def test_stride_threenode(self):
         s = 'abcde' + 'fghijkl'
         lis=['abcde', 'fghijkl']
-        r = Rope(lis)
+        r = Rope(lis,leafsize=3)
 
         for i in range(-3 * len(s), 3 * len(s)):
-            for k in range(0, len(s) + 1):
+            for k in range(-len(s), len(s) + 1):
                 if k == 0:
                     self.assertRaises(ValueError, r.__getitem__,
                                       slice(i,None,k))
@@ -114,7 +117,7 @@ class Test(unittest.TestCase):
 
         for i in range(-3 * len(s), 3 * len(s)):
             for j in range(-3 * len(s), 3 * len(s)):
-                for k in range(0, len(s) + 1):
+                for k in range(-3*len(s), len(s) + 1):
                     if k == 0:
                         self.assertRaises(ValueError, r.__getitem__,
                                           slice(i,j,k))

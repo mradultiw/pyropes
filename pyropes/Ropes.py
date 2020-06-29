@@ -1,17 +1,23 @@
 from collections.abc import Container as _CONTAINER_
 from warnings import warn as _WARN_
+
 class _RopeNode(object):
     def __init__(self,weight,value=None):
         self.lc=None #Left Child
         self.rc=None #Right Child
         self.weight=weight #String size on lc
         self.val=value #'sub-string' if leaf node else None
-        self.height=0
+        self.height=0 # for height balancing
     
     def __len__(self):
         return self.weight
 
 class Rope(object):
+    """
+    - Value of all internal nodes will be None.
+    - Value of all leaf nodes will be some sub-string of
+            length not more than leafsize.
+    """
     def __init__(self,raw=None,leafsize=8):
         self.root=None
         self.__size=0
@@ -51,9 +57,9 @@ class Rope(object):
         if value<=0 or not isinstance(value,int):
             raise ValueError("leafsize must be positive Integer")
         if value<4:
-            _WARN_("\nsmaller leafsizes will consume larger memory."+
+            _WARN_("smaller leafsizes will consume larger memory."+
                    " Most Suitable numbers for leafsizes are"+
-                   " 4,8,16,32,...")
+                   " 4,8,16,32")
         self.__LEAFSIZE=value
         self.root=self.__refresh(self.root)
     
@@ -197,7 +203,7 @@ class Rope(object):
     
     def Balance(self,root):
         """
-        Use AVLTree concept for balancing Ropes.
+        Uses AVLTree concept for balancing Ropes.
         Calling it will balance 'root' and decendents.
         Although this can be accessed from Rope object
         but user don't need to do manual balancing unless
@@ -284,7 +290,7 @@ class Rope(object):
               /        \
             STRI        NG
             
-        return refrences (STR, ING)
+        return refrences to (STR, ING)
         """
         if root is None: return None, None
         s=root.val
@@ -387,7 +393,7 @@ class Rope(object):
     def split_merge(self,split_start,split_end,merge_after):
         """
         split rope at (split_start,split_end) and merge it
-        after 'merge_after'th character in the splitted node.
+        before 'merge_after'th character in the splitted node.
         """
         mid=self.delete(split_start,split_end)
         self.insert(merge_after,mid)
@@ -395,8 +401,8 @@ class Rope(object):
     def __copy_util(self,root):
         """
         Utility: Do postorder traversal and create
-        a copy of whole tree rooted at 'root'
-        returns the ROOT of new tree created.
+        a copy of whole tree rooted at 'root'.
+        Returns the ROOT of new tree created.
         This new one is NOT a Rope object yet.
         """
         if root:
@@ -597,16 +603,7 @@ class Rope(object):
         """
         modify value at 'index' index in Rope
         Equivalent to del rope[index] followed by
-        rope.insert(index,val) but more efficent
-        If LEAFSIZE is large use former instead
-        
-        NOTE:STRING STRIDING WITH NEGATIVE STEP MAY NOT 
-            WORK AS EXPECTED IN SOME CORNER CASES. THIS
-            LITTLE BUG WILL BE SQUASHED IN FUTURE UPDATES.
-
-            TILL THEN, IF YOU FIND ANY SUCH CORNER CASE
-            REPORT US. ANY SUGGESTIONS TO REMOVE IT ARE
-            ALSO HEARTLY WELCOMED :)
+        rope.insert(index,val) but more efficent.
         """
         
         if isinstance(index,int):
@@ -633,8 +630,8 @@ class Rope(object):
             if step is not None:
                 class UnsupportedOperation(Exception):
                     pass
-                raise UnsupportedOperation("Rope slice-step is\
-                                            NOT supported")
+                raise UnsupportedOperation("slice-step is"+
+                                            " not supported")
             end-=1 #excluding index.stop
             self.__delete(start,end)
             self.insert(start,val)
@@ -649,39 +646,44 @@ class Rope(object):
         >> rope[index] will return value at 'index'
         >> rope[l:r:d] will return string equivalent
         to ropestring[l:r:d]
-        
-        NOTE:STRING STRIDING WITH NEGATIVE STEP MAY NOT 
-            WORK AS EXPECTED IN SOME CORNER CASES. THIS
-            LITTLE BUG WILL BE SQUASHED IN FUTURE UPDATES.
-
-            TILL THEN, IF YOU FIND ANY SUCH CORNER CASE
-            REPORT ME. ANY SUGGESTIONS TO REMOVE IT ARE
-            ALSO HEARTLY WELCOMED :)
+        In both cases, returned is a Rope Object.
+        Time: O(j+logn) for slice of size 'j'
         """
         if isinstance(index,int):
             return self.find(index)
         elif isinstance(index,slice):
             start,end,step=index.start,index.stop,index.step
-            if step and step<0:
-                _WARN_("Negative step size MAY produce incorrect"
-                      +" results in some corner cases. This bug"
-                      +" will be removed in future updates")
             if step==0:
                 raise ValueError("Step cannot be 0")
             ROPE_LENGTH=self.__size
             if start==end==step==None: return self
-            if start is None: start=0
-            elif start<0: start+=ROPE_LENGTH
-            if (end is None) or (end>=ROPE_LENGTH): end=ROPE_LENGTH
-            elif end<0: end+=ROPE_LENGTH
-            end-=1
-            start=max(0,start)
-            end=min(end,ROPE_LENGTH)
-            if start>end:
-                return Rope(leafsize=self.leafsize)
             if step is None: step=1
+            if step>0:
+                if start is None: start=0
+                elif start<0: start+=ROPE_LENGTH
+                if (end is None) or (end>=ROPE_LENGTH): end=ROPE_LENGTH
+                elif end<0: end+=ROPE_LENGTH
+                end-=1
+                start=max(0,start)
+                end=min(end,ROPE_LENGTH)
+                if start>end:
+                    return Rope(leafsize=self.leafsize)
+            else:
+                if (start is None) or (start>ROPE_LENGTH): start=ROPE_LENGTH
+                elif start<0: start+=ROPE_LENGTH
+                if end is None: end=-1
+                elif end<0: end+=ROPE_LENGTH
+                end+=1
+                start=min(start,ROPE_LENGTH)
+                end=max(0,end)
+                if start<end:
+                    return Rope(leafsize=self.leafsize)
+                start,end=end,start
             sliced_part=self.delete(start,end)
-            temp=str(sliced_part)[::step]
+            if step>0:
+                temp=str(sliced_part)[::step]
+            else:
+                temp=(str(sliced_part)[::-1])[::-step]
             self.insert(start,sliced_part)
             return Rope(temp,self.leafsize)
         raise ValueError("only integer or slice allowed")
@@ -704,12 +706,14 @@ class Rope(object):
         
     def display(self,function=None):
         """
-        return visual of Rope Tree
-        credit: 
-        Only Source code for printing visual of Binary Tree has
-        been taken from "https://stackoverflow.com/a/54074933"
-        
-        Further Modified a bit to work for Rope as well :)
+        return visual of Rope Tree.
+        if function is None:
+            All internal nodes will show weight; leaves will show 'substring';
+        else:
+            user-defined visual
+        NOTE: function must use attributes from ('weight', 'height', 'val') as it is.
+        Exmaple: the default function is:
+         >> lambda root: f"({root.val if root.val else root.weight})"
         """
         if function is None:
             function=lambda root: f"({root.val if root.val else root.weight})"
