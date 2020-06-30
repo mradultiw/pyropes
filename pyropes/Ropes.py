@@ -703,6 +703,9 @@ class Rope(object):
         if not isinstance(other,Rope):
             raise TypeError(f"Cannot compare Rope with {type(other)}")
         return str(self)<str(other)
+    
+    def __bool__(self):
+        return self.size
         
     def display(self,function=None):
         """

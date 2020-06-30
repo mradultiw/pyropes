@@ -23,7 +23,13 @@ This Documentation shows use cases of "**Height Balanced Rope Data Structure**".
 Ropes are mutable data structures for string processing. Operations like split, insert, delete, are performed in time O(logn) in Ropes, unlike conventional strings which have O(n) time complexity. Concatenation is done in O(1) in Ropes(without balancing). However accessing value at an index is O(logn) in ropes while O(1) in conventional strings.
 
 ## Functionalities and Usage
+### Constructors
 
+>- Rope() -> new empty Rope object.
+>- Rope(string, leafsize=4) -> Create a Rope from string with default leafsize=4 , (default leafsize is 8)
+>- Rope([string1, string2, string3]) -> Equivalent to Rope(string1 + string2 + string3)
+*Any container can be used above but should have string type elements
+### Detailed examples
 ```python
 >>> from pyropes import Rope
 >>> raw = "This_is_a_test_string_for_Rope_DataStructure"
@@ -153,7 +159,9 @@ Rope('Ti_sats_tigfrRp_aatutr')
 >>> rope1, print(rope1)
 ```
 ```
-(Rope('abcde'), abcde)
+abcde
+
+(Rope('abcde'), None)
 ```
 ```python
 >>> rope2 = rope1 + Rope("_I'm a ROPE")
@@ -174,10 +182,10 @@ Rope('Ti_sats_tigfrRp_aatutr')
 ```
 ```python
 >>> rope4 = rope1 * 3
->>> rope1, rope4
+>>> rope1, rope4, rope1>rope4
 ```
 ```
-(Rope('abcde'), Rope('abcdeabcdeabcde'))
+(Rope('abcde'), Rope('abcdeabcdeabcde'), False)
 ```
  ```python                  
 >>> rope1[ 2 ] = '*'
