@@ -26,7 +26,7 @@ Ropes are mutable data structures for string processing. Operations like split, 
 ### Constructors
 
 >- Rope() -> new empty Rope object.
->- Rope(string, leafsize=4) -> Create a Rope from string with default leafsize=4 , (default leafsize is 8)
+>- Rope(string, leafsize=4) -> Create a Rope from string with leafsize=4 , (default leafsize is 8)
 >- Rope([string1, string2, string3]) -> Equivalent to Rope(string1 + string2 + string3)
 *Any container can be used above but should have string type elements
 ### Detailed examples
