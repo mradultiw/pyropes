@@ -434,4 +434,3 @@ There are still a lot of functionalities and usages but I encourage you to go th
 ### Final Words: 
 Although I've taken every care while creating Ropes and writing this documentation, despite if you find any bug, report it.
 Any suggestions to improve code/documentation are heartily welcomed.
----

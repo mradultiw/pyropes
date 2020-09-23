@@ -852,15 +852,3 @@ def dis(root):
         return f"({root.lc is None})({root.weight})({root.rc is None})"
     return f"({root.lc.val if root.lc else ''})[{root.val}]({root.rc.val if root.rc else ''})"
 
-
-def main():
-    s = "abcdefghijklmn"
-    r = Rope(s, 3)
-    r.display()
-    print(r)
-    r.split_merge(3, 9, 5)
-    print(r)
-    r.display()
-
-
-main()
