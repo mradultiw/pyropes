@@ -1,5 +1,6 @@
 
 # Ropes
+##### Height Balanced Threaded Rope Data Structure
 ```bash
 pip install pyropes
 ```
@@ -8,20 +9,22 @@ Author: Mradul Tiwari
 Tester: Self
 Documentation: Self
 language: Python 3.7.4
+Purpose: Education
 Date created: 27 June, 2020
 OS used: Windows 10 Home
-Hardware used: Asus ROG Strix Laptop
 ```
 ## Credits
-Following Sources are used, with slight modifications, for making this project successful. I acknowledge and am grateful to these developers.
+Following Sources are used, with modifications, for making this project successful. I acknowledge and am grateful to these developers.
 - Test Suite: The test suite used for final testing belongs to ***Marshall Ward*** ([https://github.com/marshallward](https://github.com/marshallward))
 - Display API: As answered by ***J. V.*** on stack overflow (https://stackoverflow.com/a/54074933)
 
 ## About
 
-This Documentation shows use cases of "**Height Balanced Rope Data Structure**".
-Ropes are mutable data structures for string processing. Operations like split, insert, delete, are performed in time O(logn) in Ropes, unlike conventional strings which have O(n) time complexity. Concatenation is done in O(1) in Ropes(without balancing). However accessing value at an index is O(logn) in ropes while O(1) in conventional strings.
-
+This Documentation shows use cases of "**Height Balanced Threaded Rope Data Structure**".
+Ropes are mutable data structures for string processing. Operations like split, insert, delete, are performed in time O(logn) in Ropes, unlike conventional strings which have O(n) time complexity. Concatenation is done in O(1) in Ropes( O(logn) with threads & balancing). However accessing value at an index is O(logn) in ropes while O(1) in conventional strings.
+This implementation of Ropes is ***"Height Balanced With Threads"***. Motivation of height balancing has been taken from **AVL Trees** and **Threads** are attached to all leaf nodes to make traversal fast, the motivation of which came from **Threaded Binary Trees**.
+  
+The purpose of this library is to help students(or any learner) to learn about ropes, height balancing, threading in trees, writing and maintaining large python code and all of this can be visualised as well (yes! the tree that you draw on paper) which makes it easy to track what's happening in the code.
 ## Functionalities and Usage
 ### Constructors
 
@@ -111,7 +114,6 @@ Rope('This_is_a_test_string_for_Rope_DataStructure')
 ```python
 >>> rope2.display()
 ```
->Observe that Slicing modifies the rope structure. However the data doesn't changes. This is done to ease the implementation as well as provide O(logn) complexity. If we stick with the structure than  with similar implementation-complexity the time would be O(n).
 ```
             ___________________(19)_________________________             
            /                                                \            
@@ -371,11 +373,11 @@ Rope('Added_IN_FRONT_added_to'), Rope('I_m_empty_rope'))
 >>> rope2, rope2.display()
 ```
 ```
-        ________(14)_______________                
+        ________(9)_______________                
        /                           \               
-    __(5)___               _______(7)______        
+    __(4)___               _______(7)______        
    /        \             /                \       
-(ot_d)   (edda_)       __(4)___         __(4)___   
+(ot_d)   (edda_)       __(3)___         __(3)___   
                       /        \       /        \  
                     (TNO)   (RF_N)   (I_d)   (eddA)
 
@@ -426,8 +428,10 @@ Rope('Added_IN_FRONT_added_to'), Rope('I_m_empty_rope'))
 >>> rope1.isdecimal(), Rope("123").isdecimal()
 ```
 ```(False, True)```
-
 ---
-##### Final Words: 	Although I've taken every care while creating Ropes and writing this doucmentation. Despite of this, if you find any bug or descripency in any of the above, then report me. You can also provide a solution as well  :)
-##### Any suggestions regarding improvement of code/documentation are heartily welcomed and, if found vital than, will be rolled out in future updates.
+There are still a lot of functionalities and usages but I encourage you to go through all functions available and read their doc strings to know more about them.
+
+### Final Words: 
+Although I've taken every care while creating Ropes and writing this documentation, despite if you find any bug, report it.
+Any suggestions to improve code/documentation are heartily welcomed.
 ---
